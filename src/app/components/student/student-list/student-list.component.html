@@ -1,0 +1,46 @@
+<div class="student-list-container">
+  <div class="header">
+    <h2>Student List</h2>
+    <a routerLink="/students/new" class="btn-primary">Add New Student</a>
+  </div>
+
+  <div *ngIf="loading" class="loading">Loading students...</div>
+
+  <div *ngIf="!loading && students.length === 0" class="empty-state">
+    <p>No students registered yet.</p>
+    <a routerLink="/students/new" class="btn-primary">Register First Student</a>
+  </div>
+
+  <table *ngIf="!loading && students.length > 0" class="students-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Full Name</th>
+        <th>Class/Grade</th>
+        <th>Contact Number</th>
+        <th>Parent Name</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let student of students">
+        <td>{{ student.id }}</td>
+        <td>
+          <a [routerLink]="['/students', student.id]">{{ student.fullName }}</a>
+        </td>
+        <td>{{ student.classGrade }}</td>
+        <td>{{ student.contactNumber }}</td>
+        <td>{{ student.parentName }}</td>
+        <td>
+          <span [class]="'status-badge ' + (student.status === 'ACTIVE' ? 'active' : 'inactive')">
+            {{ student.status }}
+          </span>
+        </td>
+        <td>
+          <button (click)="deleteStudent(student.id!)" class="btn-delete">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

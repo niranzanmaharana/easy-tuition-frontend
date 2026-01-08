@@ -1,0 +1,40 @@
+<div class="payment-list-container">
+  <div class="header">
+    <h2>Fee Payments</h2>
+    <a routerLink="/fees/new" class="btn-primary">Record New Payment</a>
+  </div>
+
+  <div *ngIf="loading" class="loading">Loading payments...</div>
+
+  <div *ngIf="!loading && payments.length === 0" class="empty-state">
+    <p>No payments recorded yet.</p>
+    <a routerLink="/fees/new" class="btn-primary">Record First Payment</a>
+  </div>
+
+  <table *ngIf="!loading && payments.length > 0" class="payments-table">
+    <thead>
+      <tr>
+        <th>Receipt #</th>
+        <th>Student Name</th>
+        <th>Payment Date</th>
+        <th>Month</th>
+        <th>Amount</th>
+        <th>Method</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let payment of payments">
+        <td>{{ payment.receiptNumber }}</td>
+        <td>{{ payment.studentName }}</td>
+        <td>{{ payment.paymentDate }}</td>
+        <td>{{ payment.paymentMonth }}</td>
+        <td>{{ payment.amountPaid | currency:'INR':'symbol':'1.2-2' }}</td>
+        <td>{{ payment.paymentMethod }}</td>
+        <td>
+          <button (click)="deletePayment(payment.id!)" class="btn-delete">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
