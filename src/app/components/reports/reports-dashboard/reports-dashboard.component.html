@@ -1,0 +1,95 @@
+<div class="reports-container">
+  <h2>Reports</h2>
+  
+  <div class="report-selector" [formGroup]="filterForm">
+    <label>Select Report:</label>
+    <select formControlName="reportType" class="form-control">
+      <option value="payment-status">Payment Status Report</option>
+      <option value="monthly-collection">Monthly Collection Report</option>
+    </select>
+  </div>
+
+  <div class="filters" [formGroup]="filterForm">
+    <div class="filter-row">
+      <div class="filter-group">
+        <label>Month (YYYY-MM):</label>
+        <input type="text" formControlName="month" class="form-control" placeholder="2024-01">
+      </div>
+      <div class="filter-group">
+        <label>Year:</label>
+        <input type="number" formControlName="year" class="form-control">
+      </div>
+      <button type="button" (click)="onReportChange()" class="btn-primary">Apply Filters</button>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loading">Loading report...</div>
+
+  <!-- Payment Status Report -->
+  <div *ngIf="!loading && selectedReport === 'payment-status'" class="report-section">
+    <h3>Payment Status Report</h3>
+    <table *ngIf="paymentStatusReport.length > 0" class="report-table">
+      <thead>
+        <tr>
+          <th>Student Name</th>
+          <th>Class/Grade</th>
+          <th>Contact</th>
+          <th>Status</th>
+          <th>Amount Paid</th>
+          <th>Month</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of paymentStatusReport">
+          <td>{{ item.studentName }}</td>
+          <td>{{ item.classGrade }}</td>
+          <td>{{ item.contactNumber }}</td>
+          <td>
+            <span [class]="'status-badge ' + (item.paymentStatus === 'PAID' ? 'paid' : 'pending')">
+              {{ item.paymentStatus }}
+            </span>
+          </td>
+          <td>{{ item.amountPaid | currency:'INR':'symbol':'1.2-2' }}</td>
+          <td>{{ item.paymentMonth }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="paymentStatusReport.length === 0" class="empty-state">
+      <p>No data available for the selected period.</p>
+    </div>
+  </div>
+
+  <!-- Monthly Collection Report -->
+  <div *ngIf="!loading && selectedReport === 'monthly-collection' && monthlyCollectionReport" class="report-section">
+    <h3>Monthly Collection Report</h3>
+    <div class="summary-cards">
+      <div class="summary-card">
+        <h4>Total Collection</h4>
+        <p class="amount">{{ monthlyCollectionReport.totalCollection | currency:'INR':'symbol':'1.2-2' }}</p>
+      </div>
+      <div class="summary-card">
+        <h4>Paid Students</h4>
+        <p class="count">{{ monthlyCollectionReport.paidCount }}</p>
+      </div>
+      <div class="summary-card">
+        <h4>Pending Students</h4>
+        <p class="count">{{ monthlyCollectionReport.pendingCount }}</p>
+      </div>
+    </div>
+    <div class="breakdown">
+      <h4>Breakdown by Payment Method</h4>
+      <div class="breakdown-item">
+        <span>Cash:</span>
+        <span>{{ monthlyCollectionReport.cashAmount || 0 | currency:'INR':'symbol':'1.2-2' }}</span>
+      </div>
+      <div class="breakdown-item">
+        <span>Online:</span>
+        <span>{{ monthlyCollectionReport.onlineAmount || 0 | currency:'INR':'symbol':'1.2-2' }}</span>
+      </div>
+      <div class="breakdown-item">
+        <span>Bank Transfer:</span>
+        <span>{{ monthlyCollectionReport.bankTransferAmount || 0 | currency:'INR':'symbol':'1.2-2' }}</span>
+      </div>
+    </div>
+  </div>
+</div>

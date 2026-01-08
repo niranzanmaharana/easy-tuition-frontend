@@ -1,0 +1,64 @@
+<div class="form-container">
+  <h2>Register New Student</h2>
+  <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="fullName">Full Name *</label>
+      <input type="text" id="fullName" formControlName="fullName" class="form-control">
+      <div *ngIf="submitted && studentForm.get('fullName')?.errors?.['required']" class="error">
+        Full name is required
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="dateOfBirth">Date of Birth</label>
+        <input type="date" id="dateOfBirth" formControlName="dateOfBirth" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="gender">Gender</label>
+        <select id="gender" formControlName="gender" class="form-control">
+          <option value="">Select</option>
+          <option value="MALE">Male</option>
+          <option value="FEMALE">Female</option>
+          <option value="OTHER">Other</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="parentName">Parent/Guardian Name</label>
+      <input type="text" id="parentName" formControlName="parentName" class="form-control">
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="contactNumber">Contact Number</label>
+        <input type="tel" id="contactNumber" formControlName="contactNumber" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" formControlName="email" class="form-control">
+        <div *ngIf="submitted && studentForm.get('email')?.errors?.['email']" class="error">
+          Invalid email format
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="address">Address</label>
+      <textarea id="address" formControlName="address" class="form-control" rows="3"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="classGrade">Class/Grade</label>
+      <input type="text" id="classGrade" formControlName="classGrade" class="form-control">
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="loading" class="btn-primary">
+        {{ loading ? 'Registering...' : 'Register Student' }}
+      </button>
+      <a routerLink="/students" class="btn-cancel">Cancel</a>
+    </div>
+  </form>
+</div>

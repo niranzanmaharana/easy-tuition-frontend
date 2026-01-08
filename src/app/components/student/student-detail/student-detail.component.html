@@ -1,0 +1,84 @@
+<div class="student-detail-container">
+  <div *ngIf="loading">Loading...</div>
+  <div *ngIf="!loading && student">
+    <div class="header">
+      <h2>Student Details</h2>
+      <a routerLink="/students" class="btn-secondary">Back to List</a>
+    </div>
+
+    <div class="student-info">
+      <h3>{{ student.fullName }}</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <label>ID:</label>
+          <span>{{ student.id }}</span>
+        </div>
+        <div class="info-item">
+          <label>Date of Birth:</label>
+          <span>{{ student.dateOfBirth || 'N/A' }}</span>
+        </div>
+        <div class="info-item">
+          <label>Gender:</label>
+          <span>{{ student.gender || 'N/A' }}</span>
+        </div>
+        <div class="info-item">
+          <label>Class/Grade:</label>
+          <span>{{ student.classGrade || 'N/A' }}</span>
+        </div>
+        <div class="info-item">
+          <label>Parent Name:</label>
+          <span>{{ student.parentName || 'N/A' }}</span>
+        </div>
+        <div class="info-item">
+          <label>Contact Number:</label>
+          <span>{{ student.contactNumber || 'N/A' }}</span>
+        </div>
+        <div class="info-item">
+          <label>Email:</label>
+          <span>{{ student.email || 'N/A' }}</span>
+        </div>
+        <div class="info-item">
+          <label>Address:</label>
+          <span>{{ student.address || 'N/A' }}</span>
+        </div>
+        <div class="info-item">
+          <label>Registration Date:</label>
+          <span>{{ student.registrationDate || 'N/A' }}</span>
+        </div>
+        <div class="info-item">
+          <label>Status:</label>
+          <span [class]="'status-badge ' + (student.status === 'ACTIVE' ? 'active' : 'inactive')">
+            {{ student.status }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="payments-section">
+      <h3>Payment History</h3>
+      <div *ngIf="payments.length === 0" class="empty-state">
+        <p>No payments recorded yet.</p>
+      </div>
+      <table *ngIf="payments.length > 0" class="payments-table">
+        <thead>
+          <tr>
+            <th>Payment Date</th>
+            <th>Month</th>
+            <th>Amount</th>
+            <th>Method</th>
+            <th>Receipt Number</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let payment of payments">
+            <td>{{ payment.paymentDate }}</td>
+            <td>{{ payment.paymentMonth }}</td>
+            <td>{{ payment.amountPaid }}</td>
+            <td>{{ payment.paymentMethod }}</td>
+            <td>{{ payment.receiptNumber }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

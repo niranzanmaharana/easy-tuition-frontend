@@ -1,0 +1,69 @@
+<div class="form-container">
+  <h2>Record Fee Payment</h2>
+  <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="studentId">Student *</label>
+      <select id="studentId" formControlName="studentId" class="form-control">
+        <option value="">Select Student</option>
+        <option *ngFor="let student of students" [value]="student.id">
+          {{ student.fullName }} ({{ student.classGrade }})
+        </option>
+      </select>
+      <div *ngIf="submitted && paymentForm.get('studentId')?.errors?.['required']" class="error">
+        Student is required
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="amountPaid">Amount Paid *</label>
+        <input type="number" id="amountPaid" formControlName="amountPaid" 
+               class="form-control" step="0.01" min="0.01">
+        <div *ngIf="submitted && paymentForm.get('amountPaid')?.errors?.['required']" class="error">
+          Amount is required
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="paymentDate">Payment Date *</label>
+        <input type="date" id="paymentDate" formControlName="paymentDate" class="form-control">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="paymentMonth">Payment Month * (YYYY-MM)</label>
+        <input type="text" id="paymentMonth" formControlName="paymentMonth" 
+               class="form-control" placeholder="2024-01">
+        <div *ngIf="submitted && paymentForm.get('paymentMonth')?.errors?.['required']" class="error">
+          Payment month is required
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="paymentYear">Payment Year *</label>
+        <input type="number" id="paymentYear" formControlName="paymentYear" 
+               class="form-control" min="2020" max="2100">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="paymentMethod">Payment Method *</label>
+      <select id="paymentMethod" formControlName="paymentMethod" class="form-control">
+        <option value="CASH">Cash</option>
+        <option value="ONLINE">Online</option>
+        <option value="BANK_TRANSFER">Bank Transfer</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="notes">Notes</label>
+      <textarea id="notes" formControlName="notes" class="form-control" rows="3"></textarea>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="loading" class="btn-primary">
+        {{ loading ? 'Recording...' : 'Record Payment' }}
+      </button>
+      <a routerLink="/fees" class="btn-cancel">Cancel</a>
+    </div>
+  </form>
+</div>
